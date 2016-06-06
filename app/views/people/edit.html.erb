@@ -1,0 +1,65 @@
+<!-- Validation failure messages -->
+<% if @person.errors.any? %>
+<% @person.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Person #<%= @person.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_person/<%= @person.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+      <!-- Label and input for name -->
+      <div class="form-group">
+        <label for="name" class="control-label">
+          Name
+        </label>
+
+        <input type="text" id="name" name="name" placeholder="Name" class="form-control" value="<%= @person.name %>">
+      </div>
+
+      <!-- Label and input for address -->
+      <div class="form-group">
+        <label for="address" class="control-label">
+          Address
+        </label>
+
+        <textarea id="address" name="address" placeholder="Address" class="form-control" rows="3"><%= @person.address %></textarea>
+      </div>
+      
+      <!-- Label and input for phonenumber -->
+      <div class="form-group">
+        <label for="phonenumber" class="control-label">
+          Phonenumber
+        </label>
+
+        <input type="text" id="phonenumber" name="phonenumber" placeholder="Phonenumber" class="form-control" value="<%= @person.phonenumber %>">
+      </div>
+
+      <!-- Label and input for birthday -->
+      <div class="form-group">
+        <label for="birthday" class="control-label">
+          Birthday
+        </label>
+
+        <input type="text" id="birthday" name="birthday" placeholder="Birthday" class="form-control" value="<%= @person.birthday %>">
+      </div>
+
+      <button class="btn btn-warning">
+        Update Person
+      </button>
+      or
+      <a href="/people/<%= @person.id %>">Cancel</a>
+    </form>
+  </div>
+</div>

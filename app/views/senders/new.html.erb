@@ -1,0 +1,46 @@
+<!-- Validation failure messages -->
+<% if @sender.errors.any? %>
+  <% @sender.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Sender</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_sender" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for person_id -->
+      <div class="form-group">
+        <label for="person_id" class="control-label">
+          Person
+        </label>
+
+        <input type="text" id="person_id" name="person_id" placeholder="Person" class="form-control" value="<%= @sender.person_id %>">
+      </div>
+
+      <!-- Label and input for received_gift_id -->
+      <div class="form-group">
+        <label for="received_gift_id" class="control-label">
+          Received gift
+        </label>
+
+        <input type="text" id="received_gift_id" name="received_gift_id" placeholder="Received gift" class="form-control" value="<%= @sender.received_gift_id %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Sender
+      </button>
+      or
+      <a href="/senders">Cancel</a>
+    </form>
+  </div>
+</div>

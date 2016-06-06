@@ -1,0 +1,78 @@
+<!-- Validation failure messages -->
+<% if @received_gift.errors.any? %>
+<% @received_gift.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Received Gift</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for date -->
+      <div class="form-group">
+        <label for="date" class="control-label">
+          Date
+        </label>
+
+        <input type="text" id="date" name="date" placeholder="Date" class="form-control" value="<%= @received_gift.date %>">
+      </div>
+
+      <!-- Choose sender -->
+      <div class="form-group">
+        <label for="person_id" class="control-label">
+          Received from
+        </label>
+        <%= select_tag(:person_id, options_from_collection_for_select(Person.all, :id, :name), :class => "form-control") %>
+      </div>
+
+      <button class="btn btn-success" formaction = "/add_new_sender">
+        Add another sender
+      </button>
+      or
+      <a href="/people/new">Create New People</a>
+
+      <!-- Label and input for purpose -->
+      <div class="form-group">
+        <br><label for="purpose" class="control-label">
+          Received as
+        </label>
+
+        <textarea id="purpose" name="purpose" placeholder="Purpose" class="form-control" rows="3"><%= @received_gift.purpose %></textarea>
+      </div>
+
+      <!-- Label and input for content -->
+      <div class="form-group">
+        <label for="content" class="control-label">
+          Content
+        </label>
+
+        <textarea id="content" name="content" placeholder="Content" class="form-control" rows="3"><%= @received_gift.content %></textarea>
+      </div>
+
+      <!-- Label and input for image_url -->
+      <div class="form-group">
+        <label for="image_url" class="control-label">
+          Image_url
+        </label>
+
+        <input type="text" id="image_url" name="image_url" placeholder="Image_Url" class="form-control" value="<%= @received_gift.image_url %>">
+      </div>
+
+      <button class="btn btn-success" formaction="/create_received_gift">
+        Create Received Gift
+      </button>
+      or
+      <a href="/received_gifts">Cancel</a>
+    </form>
+  </div>
+</div>

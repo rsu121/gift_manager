@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h3>Sender #<%= @sender.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <dl class="dl-horizontal">
+      <dt>Person</dt>
+      <dd><%= @sender.person_id %></dd>
+
+      <dt>Received gift</dt>
+      <dd><%= @sender.received_gift_id %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/senders" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/senders/<%= @sender.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_sender/<%= @sender.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
