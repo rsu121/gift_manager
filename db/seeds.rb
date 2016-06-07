@@ -109,7 +109,7 @@ sent_gift_giftcard = SentGift.new
 sent_gift_giftcard.content = "Amazon gift card"
 sent_gift_giftcard.purpose = "Gift to my brother when he visited me in SF."
 sent_gift_giftcard.date = "2016-06-05"
-sent_gift_giftcard.image_url = "https://www.google.com/search?q=amazon+gift+card&client=safari&rls=en&source=lnms&tbm=isch&sa=X&ved=0ahUKEwic5s6MjpTNAhUPU1IKHeaCAVMQ_AUICCgC&biw=1237&bih=653#imgrc=_HqGVHOvmsmSSM%3A"
+sent_gift_giftcard.image_url = "http://www.kosapress.com/wp-content/uploads/2016/05/amazon_100giftcard_1.jpg"
 sent_gift_giftcard.user_id = user.id
 sent_gift_giftcard.save
 
