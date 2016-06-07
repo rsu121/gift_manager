@@ -7,11 +7,13 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/paper/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
+  <!-- Links for sortable table -->
+
   <style>
-    /* Only necessary if you are using navbar-fixed-top */
-    body {
-      padding-top: 60px;
-    }
+  /* Only necessary if you are using navbar-fixed-top */
+  body {
+    padding-top: 60px;
+  }
   </style>
 
   <%= stylesheet_link_tag    "application", :media => "all" %>
@@ -41,16 +43,38 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="/people">People</a></li>
-          <li><a href="/sent_gifts">Sent Gifts</a></li>
           <li><a href="/received_gifts">Received Gifts</a></li>
-          <li><a href="/recipients">Recipients</a></li>
-          <li><a href="/senders">Senders</a></li>
-          <li><a href="/rails/info">Sitemap</a></li>
+          <li><a href="/sent_gifts">Sent Gifts</a></li>
+          <!-- <li><a href="/recipients">Recipients</a></li> -->
+          <!-- <li><a href="/senders">Senders</a></li> -->
+          <!-- <li><a href="/rails/info">Sitemap</a></li> -->
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/users/edit">Dummy Edit Profile Link</a></li>
-          <li><a href="/users/sign_out" data-method="delete" rel="nofollow">Dummy Sign Out Link</a></li>
+          <% if current_user.present? %>
+          <li>
+            <a href="/users/edit">
+              <%= current_user.email %>
+            </a>
+          </li>
+          <li>
+            <a href="/users/sign_out" data-method="delete" rel="nofollow">
+              Log Out
+              <!-- <i class="fa fa-sign-out"></i>   -->
+            </a>
+          </li>
+          <% else %>
+          <li>
+            <a href="/users/sign_up">
+              Sign Up
+            </a>
+          </li>
+          <li>
+            <a href="/users/sign_in">
+              Log In
+            </a>
+          </li>
+          <% end %>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div>
@@ -58,17 +82,17 @@
 
   <div class="container">
     <% if notice.present? %>
-      <div class="alert alert-dismissable alert-success">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <%= notice %>
-      </div>
+    <div class="alert alert-dismissable alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= notice %>
+    </div>
     <% end %>
 
     <% if alert.present? %>
-      <div class="alert alert-dismissable alert-warning">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <%= alert %>
-      </div>
+    <div class="alert alert-dismissable alert-warning">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= alert %>
+    </div>
     <% end %>
 
     <%= yield %>

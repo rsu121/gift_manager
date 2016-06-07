@@ -1,6 +1,6 @@
 class SendersController < ApplicationController
   def index
-    @senders = Sender.all
+    @senders = current_user.senders
   end
 
   def show
@@ -15,6 +15,7 @@ class SendersController < ApplicationController
     @sender = Sender.new
     @sender.person_id = params[:person_id]
     @sender.received_gift_id = params[:received_gift_id]
+    @sender.user_id = params[:user_id]
 
     if @sender.save
       redirect_to "/senders", :notice => "Sender created successfully."
@@ -32,6 +33,7 @@ class SendersController < ApplicationController
 
     @sender.person_id = params[:person_id]
     @sender.received_gift_id = params[:received_gift_id]
+    @sender.user_id = params[:user_id]
 
     if @sender.save
       redirect_to "/senders", :notice => "Sender updated successfully."

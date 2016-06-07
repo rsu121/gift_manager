@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   def index
-    @people = Person.all
+    @people = current_user.people
   end
 
   def show
@@ -17,6 +17,8 @@ class PeopleController < ApplicationController
     @person.address = params[:address]
     @person.birthday = params[:birthday]
     @person.name = params[:name]
+    @person.image_url = params[:image_url]
+    @person.user_id = params[:user_id]
 
     if @person.save
       redirect_to "/people", :notice => "Person created successfully."
@@ -36,6 +38,8 @@ class PeopleController < ApplicationController
     @person.address = params[:address]
     @person.birthday = params[:birthday]
     @person.name = params[:name]
+    @person.image_url = params[:image_url]
+    @person.user_id = params[:user_id]
 
     if @person.save
       redirect_to "/people", :notice => "Person updated successfully."

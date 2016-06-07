@@ -1,6 +1,6 @@
 class ReceivedGiftsController < ApplicationController
   def index
-    @received_gifts = ReceivedGift.all
+    @received_gifts = current_user.received_gifts
   end
 
   def show
@@ -17,6 +17,7 @@ class ReceivedGiftsController < ApplicationController
     @received_gift.purpose = params[:purpose]
     @received_gift.date = params[:date]
     @received_gift.image_url = params[:image_url]
+    @received_gift.user_id = params[:user_id]
 
     if @received_gift.save
       redirect_to "/received_gifts", :notice => "Received gift created successfully."
@@ -27,6 +28,7 @@ class ReceivedGiftsController < ApplicationController
     @sender = Sender.new
     @sender.received_gift_id = @received_gift.id
     @sender.person_id = params[:person_id]
+    @sender.user_id = params[:user_id]
     @sender.save
   end
 
@@ -36,10 +38,12 @@ class ReceivedGiftsController < ApplicationController
     @received_gift.purpose = params[:purpose]
     @received_gift.date = params[:date]
     @received_gift.image_url = params[:image_url]
+    @received_gift.user_id = params[:user_id]
     if @received_gift.save
       @sender = Sender.new
       @sender.received_gift_id = @received_gift.id
       @sender.person_id = params[:person_id]
+      @sender.user_id = params[:user_id]
       @sender.save
       redirect_to "/received_gifts/#{@received_gift.id}/edit"
     else
@@ -53,10 +57,12 @@ class ReceivedGiftsController < ApplicationController
     @received_gift.purpose = params[:purpose]
     @received_gift.date = params[:date]
     @received_gift.image_url = params[:image_url]
+    @received_gift.user_id = params[:user_id]
     if @received_gift.save
       @sender = Sender.new
       @sender.received_gift_id = @received_gift.id
       @sender.person_id = params[:person_id]
+      @sender.user_id = params[:user_id]
       @sender.save
       redirect_to "/received_gifts/#{@received_gift.id}/edit"
     else
@@ -70,8 +76,9 @@ class ReceivedGiftsController < ApplicationController
     @received_gift.purpose = params[:purpose]
     @received_gift.date = params[:date]
     @received_gift.image_url = params[:image_url]
+    @received_gift.user_id = params[:user_id]
     if @received_gift.save
-      Sender.all.each do |sender|
+      current_user.senders.each do |sender|
         if sender.received_gift_id == params[:received_gift_id].to_i && sender.person_id == params[:person_id].to_i
           sender.destroy
         end
@@ -92,7 +99,7 @@ class ReceivedGiftsController < ApplicationController
     @received_gift.purpose = params[:purpose]
     @received_gift.date = params[:date]
     @received_gift.image_url = params[:image_url]
-
+    @received_gift.user_id = params[:user_id]
     if @received_gift.save
       redirect_to "/received_gifts", :notice => "Received gift updated successfully."
     else

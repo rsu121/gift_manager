@@ -1,94 +1,112 @@
 <!-- Validation failure messages -->
 <% if @sent_gift.errors.any? %>
   <% @sent_gift.errors.full_messages.each do |message| %>
-    <div class="alert alert-dismissable alert-danger">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= message %>
-    </div>
-  <% end %>
-<% end %>
-
-<div class="page-header">
-  <h3>Edit Sent Gift #<%= @sent_gift.id %></h3>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <form action="" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for date -->
-      <div class="form-group">
-        <label for="date" class="control-label">
-          Date
-        </label>
-
-        <input type="text" id="date" name="date" placeholder="Date" class="form-control" value="<%= @sent_gift.date %>">
-      </div>
-
-      <!-- Choose recipient -->
-      <div class="form-group">
-        <label for="person_id" class="control-label">
-          Sent to
-        </label>
-        <% Recipient.all.each do |recipient| %>
-        <% if recipient.sent_gift_id == @sent_gift.id %>
-        <div>
-          <%= Person.find(recipient.person_id).name %>
-          <button class="btn btn-danger" formaction="/remove_recipient/<%= @sent_gift.id %>,<%= recipient.person_id %>">
-            Remove this recipient
-          </button>
-        </div><br>
-        <% end %>
-        <% end %>
-      </div>
-      <div class="form-group">
-        <label for="person_id" class="control-label">
-          Add another recipient
-        </label>
-        <%= select_tag(:person_id, options_from_collection_for_select(Person.all, :id, :name), :class => "form-control") %>
-      </div>
-      <div>
-        <button class="btn btn-success" formaction="/add_new_recipient/<%= @sent_gift.id %>">
-          Add this recipient
-        </button>
-        or
-        <a href="/people/new">Create New People</a>
-      </div>
-
-      <!-- Label and input for purpose -->
-      <div class="form-group">
-        <br><label for="purpose" class="control-label">
-          Sent as
-        </label>
-
-        <textarea id="purpose" name="purpose" placeholder="Purpose" class="form-control" rows="3"><%= @sent_gift.purpose %></textarea>
-      </div>
-
-      <!-- Label and input for content -->
-      <div class="form-group">
-        <label for="content" class="control-label">
-          Content
-        </label>
-
-        <textarea id="content" name="content" placeholder="Content" class="form-control" rows="3"><%= @sent_gift.content %></textarea>
-      </div>
-
-      <!-- Label and input for image_url -->
-      <div class="form-group">
-        <label for="image_url" class="control-label">
-          Image_url
-        </label>
-
-        <input type="text" id="image_url" name="image_url" placeholder="Image_Url" class="form-control" value="<%= @sent_gift.image_url %>">
-      </div>
-
-      <button class="btn btn-warning" formaction="/update_sent_gift/<%= @sent_gift.id %>">
-        Update Sent Gift
-      </button>
-      or
-      <a href="/sent_gifts/<%= @sent_gift.id %>">Cancel</a>
-    </form>
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <%= message %>
   </div>
-</div>
+  <% end %>
+  <% end %>
+
+  <div class="page-header">
+    <h3>Edit Sent Gift: <%= @sent_gift.content %></h3>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form action="" method="post">
+        <!-- Hidden input for authenticity token to protect from forgery -->
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+        <!-- Hidden input for user_id -->
+        <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+        <!-- Label and input for date -->
+        <div class="form-group">
+          <label for="date" class="control-label">
+            Date
+          </label>
+
+          <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" name="date" id="date" value="<%= @sent_gift.date %>">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+          <script type="text/javascript">
+          $(function () {
+            $('#datetimepicker1').datetimepicker({
+              format: 'YYYY-MM-DD'
+            });
+          });
+          </script>
+        </div>
+
+        <!-- Label and input for content -->
+        <div class="form-group">
+          <label for="content" class="control-label">
+            Content
+          </label>
+
+          <textarea id="content" name="content" placeholder="Content" class="form-control" rows="3"><%= @sent_gift.content %></textarea>
+        </div>
+
+        <!-- Choose recipient -->
+        <div class="form-group">
+          <label for="person_id" class="control-label">
+            Sent to
+          </label>
+          <% current_user.recipients.each do |recipient| %>
+          <% if recipient.sent_gift_id == @sent_gift.id %>
+          <div>
+            <%= Person.find(recipient.person_id).name %>
+            <button class="btn btn-danger" formaction="/remove_recipient/<%= @sent_gift.id %>,<%= recipient.person_id %>">
+              Remove this recipient
+            </button>
+          </div><br>
+          <% end %>
+          <% end %>
+        </div>
+        <div class="form-group">
+          <div class="col-md-3"></div>
+          <div class="form-group col-md-9">
+            <label for="person_id" class="control-label">
+              Add another recipient
+            </label>
+            <%= select_tag(:person_id, options_from_collection_for_select(current_user.people.order("name ASC"), :id, :name), :class => "form-control") %>
+          </div>
+          <div class="col-md-3"></div>
+          <div class="form-group col-md-9">
+            <button class="btn btn-primary" formaction="/add_new_recipient/<%= @sent_gift.id %>">
+              Add this recipient
+            </button>
+            or
+            <a href="/people/new">Create New People</a>
+          </div>
+
+          <!-- Label and input for purpose -->
+          <div class="form-group">
+            <br><label for="purpose" class="control-label">
+              Sent as
+            </label>
+
+            <textarea id="purpose" name="purpose" placeholder="Purpose" class="form-control" rows="3"><%= @sent_gift.purpose %></textarea>
+          </div>
+
+          <!-- Label and input for image_url -->
+          <div class="form-group">
+            <label for="image_url" class="control-label">
+              Image_url
+            </label>
+
+            <input type="text" id="image_url" name="image_url" placeholder="Image_Url" class="form-control" value="<%= @sent_gift.image_url %>">
+          </div>
+
+          <button class="btn btn-warning" formaction="/update_sent_gift/<%= @sent_gift.id %>">
+            Update Sent Gift
+          </button>
+          or
+          <a href="/sent_gifts/<%= @sent_gift.id %>">Cancel</a>
+        </form>
+      </div>
+    </div>

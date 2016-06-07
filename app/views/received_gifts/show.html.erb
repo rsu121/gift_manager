@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h3>Received Gift #<%= @received_gift.id %></h3>
+  <h3>Received Gift: <%= @received_gift.content %></h3>
 </div>
 
 <div class="row">
@@ -7,8 +7,12 @@
     <dl class="dl-horizontal">
 
       <dt>Date</dt>
-      <dd><%= @received_gift.date %></dd>
+      <dd><%= @received_gift.date.strftime('%b %e, %Y') %></dd>
 
+
+      <dt>Content</dt>
+      <dd><%= @received_gift.content %></dd>
+      
       <dt>Received from</dt>
       <dd>
         <% @received_gift.persons.each do |person| %>
@@ -18,9 +22,6 @@
 
       <dt>Received as</dt>
       <dd><%= @received_gift.purpose %></dd>
-
-      <dt>Content</dt>
-      <dd><%= @received_gift.content %></dd>
 
       <dt>Image</dt>
       <dd><img src="<%= @received_gift.image_url %>" width="300"></dd>

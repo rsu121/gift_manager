@@ -18,6 +18,8 @@
         <!-- Hidden input for authenticity token to protect from forgery -->
         <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
+        <!-- Hidden input for user_id -->
+        <input type="hidden" name="user_id" value="<%= current_user.id %>">
 
         <!-- Label and input for date -->
         <div class="form-group">
@@ -25,31 +27,19 @@
             Date
           </label>
 
-          <input type="text" id="date" name="date" placeholder="Date" class="form-control" value="<%= @sent_gift.date %>">
-        </div>
-
-        <!-- Choose recipient -->
-        <div class="form-group">
-          <label for="person_id" class="control-label">
-            Sent to
-          </label>
-          <%= select_tag(:person_id, options_from_collection_for_select(Person.all, :id, :name), :class => "form-control") %>
-        </div>
-
-        <button class="btn btn-success" formaction = "/add_new_recipient">
-          Add another recipient
-        </button>
-        or
-        <a href="/people/new">Create New People</a>
-
-
-        <!-- Label and input for purpose -->
-        <div class="form-group">
-          <br><label for="purpose" class="control-label">
-            Sent as
-          </label>
-
-          <textarea id="purpose" name="purpose" placeholder="Purpose" class="form-control" rows="3"><%= @sent_gift.purpose %></textarea>
+          <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" name="date" id="date" value="<%= @sent_gift.date %>">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+          <script type="text/javascript">
+          $(function () {
+            $('#datetimepicker1').datetimepicker({
+              format: 'YYYY-MM-DD'
+            });
+          });
+          </script>
         </div>
 
         <!-- Label and input for content -->
@@ -60,6 +50,33 @@
 
           <textarea id="content" name="content" placeholder="Content" class="form-control" rows="3"><%= @sent_gift.content %></textarea>
         </div>
+
+        <!-- Choose recipient -->
+        <div class="form-group">
+          <label for="person_id" class="control-label">
+            Sent to
+          </label>
+          <%= select_tag(:person_id, options_from_collection_for_select(current_user.people.order("name ASC"), :id, :name), :class => "form-control") %>
+        </div>
+
+        <div class="col-md-8"></div>
+        <div class="col-md-4">
+          <button class="btn btn-primary" formaction = "/add_new_recipient">
+            Add another recipient
+          </button>
+          or
+          <a href="/people/new">Create New People</a>
+        </div>
+
+        <!-- Label and input for purpose -->
+        <div class="form-group">
+          <br><label for="purpose" class="control-label">
+            Sent as
+          </label>
+
+          <textarea id="purpose" name="purpose" placeholder="Purpose" class="form-control" rows="3"><%= @sent_gift.purpose %></textarea>
+        </div>
+
 
         <!-- Label and input for image_url -->
         <div class="form-group">

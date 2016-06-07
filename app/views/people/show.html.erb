@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h3>Person #<%= @person.id %></h3>
+  <h3>Person: <%= @person.name %></h3>
 </div>
 
 <div class="row">
@@ -13,9 +13,12 @@
 
       <dt>Phonenumber</dt>
       <dd><%= @person.phonenumber %></dd>
-      
+
       <dt>Birthday</dt>
       <dd><%= @person.birthday %></dd>
+
+      <dt>Image</dt>
+      <dd><img src="<%= @person.image_url %>" width="300"></dd>
 
 
     </dl>
@@ -32,4 +35,61 @@
       </a>
     </div>
   </div>
-</div>
+</div><br>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover sortable">
+      <tr>
+        <th>Date</th>
+        <th>Received gifts</th>
+        <th>As</th>
+        <th>Sent gifts</th>
+        <th>As</th>
+      </tr>
+      <% current_user.received_gifts.each do |received_gift| %>
+      <% received_gift.persons.each do |person|%>
+      <% if person.id == @person.id %>
+      <tr>
+        <td>
+          <a href="/received_gifts/<%= received_gift.id %>">
+            <%= received_gift.date.strftime('%Y-%m-%d') %></a>
+          </td>
+          <td>
+            <a href="/received_gifts/<%= received_gift.id %>">
+              <%= received_gift.content %>
+            </a></td>
+            <td>
+              <%= received_gift.purpose %>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <% end %>
+          <% end %>
+          <% end %>
+
+          <% current_user.sent_gifts.each do |sent_gift| %>
+          <% sent_gift.persons.each do |person| %>
+          <% if person.id == @person.id %>
+          <tr>
+            <td>
+              <a href="/sent_gifts/<%= sent_gift.id %>">
+                <%= sent_gift.date.strftime('%Y-%m-%d') %>
+              </a></td>
+              <td></td>
+              <td></td>
+              <td>
+                <a href="/sent_gifts/<%= sent_gift.id %>">
+                  <%= sent_gift.content %>
+                </a>
+              </td>
+              <td>
+                <%= sent_gift.purpose %>
+              </td>
+            </tr>
+            <% end %>
+            <% end %>
+            <% end %>
+          </div>
+        </div>

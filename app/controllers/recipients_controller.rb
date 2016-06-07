@@ -1,6 +1,6 @@
 class RecipientsController < ApplicationController
   def index
-    @recipients = Recipient.all
+    @recipients = current_user.recipients
   end
 
   def show
@@ -15,6 +15,7 @@ class RecipientsController < ApplicationController
     @recipient = Recipient.new
     @recipient.person_id = params[:person_id]
     @recipient.sent_gift_id = params[:sent_gift_id]
+    @recipient.user_id = params[:user_id]
 
     if @recipient.save
       redirect_to "/recipients", :notice => "Recipient created successfully."
@@ -32,6 +33,7 @@ class RecipientsController < ApplicationController
 
     @recipient.person_id = params[:person_id]
     @recipient.sent_gift_id = params[:sent_gift_id]
+    @recipient.user_id = params[:user_id]
 
     if @recipient.save
       redirect_to "/recipients", :notice => "Recipient updated successfully."
